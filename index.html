@@ -5,11 +5,73 @@
   </head>
   <body style="margin: 0; overflow: hidden;">
     <a-scene>
-      <a-entity 
-        gltf-model="./office_chair.glb" 
-        position="0 1 -3" 
-        scale="1 1 1">
-      </a-entity>
+      <!-- Add the camera -->
+      <a-camera position="0 1 3" id="camera"></a-camera>
+
+      <!-- Add the 3D model -->
+      <a-entity
+        id="model"
+        gltf-model="./your-model-file.glb"
+        position="0 1 -3"
+        scale="1 1 1"
+        rotation="0 0 0"
+      ></a-entity>
+
+      <!-- Add a light -->
+      <a-light type="directional" position="1 1 0"></a-light>
+      <a-light type="ambient" color="#ffffff"></a-light>
     </a-scene>
+
+    <script>
+      // Reference to the 3D model
+      const model = document.querySelector("#model");
+
+      // Track the scale and rotation
+      let scale = 1;
+      let rotation = { x: 0, y: 0 };
+
+      // Add event listeners for interactivity
+      window.addEventListener("keydown", (event) => {
+        switch (event.key) {
+          // Zoom in
+          case "+":
+          case "=":
+            scale += 0.1;
+            model.setAttribute("scale", `${scale} ${scale} ${scale}`);
+            break;
+
+          // Zoom out
+          case "-":
+          case "_":
+            scale = Math.max(0.1, scale - 0.1); // Prevent negative scale
+            model.setAttribute("scale", `${scale} ${scale} ${scale}`);
+            break;
+
+          // Rotate left
+          case "ArrowLeft":
+            rotation.y -= 10;
+            model.setAttribute("rotation", `${rotation.x} ${rotation.y} ${rotation.z}`);
+            break;
+
+          // Rotate right
+          case "ArrowRight":
+            rotation.y += 10;
+            model.setAttribute("rotation", `${rotation.x} ${rotation.y} ${rotation.z}`);
+            break;
+
+          // Rotate up
+          case "ArrowUp":
+            rotation.x -= 10;
+            model.setAttribute("rotation", `${rotation.x} ${rotation.y} ${rotation.z}`);
+            break;
+
+          // Rotate down
+          case "ArrowDown":
+            rotation.x += 10;
+            model.setAttribute("rotation", `${rotation.x} ${rotation.y} ${rotation.z}`);
+            break;
+        }
+      });
+    </script>
   </body>
 </html>
